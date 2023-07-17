@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WigHeader from "../components/Headline";
 import styled from "styled-components";
 import {
@@ -9,6 +9,8 @@ import {
   AiOutlineHeart,
 } from "react-icons/ai";
 import Link from "next/link";
+import { LoginState } from "../recoil/loginstate";
+import { useRecoilState } from "recoil";
 
 const Container = styled.div`
   height: 90vh;
@@ -71,6 +73,8 @@ const Em = styled.em`
   letter-spacing: -0.5px;
 `;
 const Register = () => {
+  //로그인정보수정
+  const [value, setValue] = useRecoilState(LoginState);
   //생년월일 정규식
   const [inputText, setInputText] = useState("");
   const [privateText, setPrivateText] = useState("");
@@ -95,6 +99,8 @@ const Register = () => {
       setPrivateText("");
     }
   };
+  //이메일 유효성 검사 (클라에서 형태검사 / 형태에 맞으면 서버로 전송해서 중복검사)
+  //비밀번호 유효성 검사
   return (
     <>
       <Container>
@@ -130,11 +136,11 @@ const Register = () => {
             }}
           >
             <AiOutlineUser style={{ color: "#495057" }} />
-            <Input type="email" placeholder="아이디(이메일)" required />
+            <Input type="email" placeholder="아이디(이메일)" /* required */ />
           </InputTextBlock>
           <InputTextBlock>
             <AiOutlineLock style={{ color: "#495057" }} />
-            <Input type="password" placeholder="비밀번호" required />
+            <Input type="password" placeholder="비밀번호" /* required */ />
             <Em>안전</Em>
           </InputTextBlock>
           <InputTextBlock
@@ -145,7 +151,7 @@ const Register = () => {
             }}
           >
             <AiOutlineStar style={{ color: "#495057" }} />{" "}
-            <Input type="text" placeholder="닉네임" required />
+            <Input type="text" placeholder="닉네임" /* required */ />
           </InputTextBlock>
           <div
             style={{
@@ -223,7 +229,15 @@ const Register = () => {
           >
             {privateText}
           </div>
-          <StyledButton>인증요청</StyledButton>
+          <Link href="/congrats" style={{ textDecoration: "none" }}>
+            <StyledButton
+              onClick={() => {
+                setValue(true);
+              }}
+            >
+              인증요청
+            </StyledButton>
+          </Link>
         </form>
       </Container>
     </>
