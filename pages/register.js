@@ -72,7 +72,7 @@ const Em = styled.em`
   line-height: 13px;
   letter-spacing: -0.5px;
 `;
-const Register = () => {
+function Register() {
   //로그인정보수정
   const [value, setValue] = useRecoilState(LoginState);
   //생년월일 정규식
@@ -242,6 +242,6 @@ const Register = () => {
       </Container>
     </>
   );
-};
+}
 
 export default Register;
