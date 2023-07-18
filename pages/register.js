@@ -9,8 +9,6 @@ import {
   AiOutlineHeart,
 } from "react-icons/ai";
 import Link from "next/link";
-import { LoginState } from "../recoil/loginstate";
-import { useRecoilState } from "recoil";
 
 const Container = styled.div`
   height: 90vh;
@@ -73,8 +71,6 @@ const Em = styled.em`
   letter-spacing: -0.5px;
 `;
 function Register() {
-  //로그인정보수정
-  const [value, setValue] = useRecoilState(LoginState);
   //생년월일 정규식
   const [inputText, setInputText] = useState("");
   const [privateText, setPrivateText] = useState("");
@@ -230,13 +226,7 @@ function Register() {
             {privateText}
           </div>
           <Link href="/congrats" style={{ textDecoration: "none" }}>
-            <StyledButton
-              onClick={() => {
-                setValue(true);
-              }}
-            >
-              인증요청
-            </StyledButton>
+            <StyledButton>인증요청</StyledButton>
           </Link>
         </form>
       </Container>

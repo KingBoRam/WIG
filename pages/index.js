@@ -1,12 +1,10 @@
 import Head from "next/head";
 import Modal from "../components/Modal";
 import WigTemplate from "../components/Login";
-import { useRecoilValue } from "recoil";
-import { LoginState } from "../recoil/loginstate";
 import Link from "next/link";
 
 export default function Home() {
-  const loginState = useRecoilValue(LoginState);
+  const loginState = false;
   if (loginState === false) {
     return (
       <>

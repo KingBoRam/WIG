@@ -1,8 +1,6 @@
 import styled, { css } from "styled-components";
 import { MdClear } from "react-icons/md";
 import { useState } from "react";
-import { useSetRecoilState } from "recoil";
-import { LoginState } from "../recoil/loginstate";
 import { useRouter } from "next/router";
 
 //디자인
@@ -104,7 +102,7 @@ const CustomCheckbox = styled.input`
 const CustomLabel = styled.label`
   background-color: #fff;
   margin-top: -0.5rem;
-  margin-left: 7px;
+  margin-left: 6.5px;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
@@ -170,13 +168,11 @@ function WigInput() {
     setRevealPwd(false);
   };
   //로그인상태관리
-  const setLoginState = useSetRecoilState(LoginState);
   const router = useRouter();
   const loginInformation = false;
   const [falseText, setfalseText] = useState(null);
   const onClick = () => {
     if (loginInformation) {
-      setLoginState(loginInformation);
       console.log(loginInformation);
       router("/");
     } else if (!loginInformation) {
