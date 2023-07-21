@@ -2,10 +2,15 @@ import Head from "next/head";
 import Modal from "../components/Modal";
 import WigTemplate from "../components/Login";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const loginState = false;
-  if (loginState === false) {
+  const [loginState, setLoginState] = useState("");
+  useEffect(() => {
+    const storedLoginState = sessionStorage.getItem("jwtToken");
+    setLoginState(storedLoginState);
+  }, []);
+  if (loginState !== "your_jwt_token") {
     return (
       <>
         <Head>
@@ -18,7 +23,7 @@ export default function Home() {
         </Modal>
       </>
     );
-  } else if (loginState === true) {
+  } else if (loginState === "your_jwt_token") {
     return (
       <>
         <Head>

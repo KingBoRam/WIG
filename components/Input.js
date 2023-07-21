@@ -169,17 +169,18 @@ function WigInput() {
   };
   //로그인상태관리
   const router = useRouter();
-  const loginInformation = false;
+  const loginInformation = true;
   const [falseText, setfalseText] = useState(null);
   const onClick = () => {
     if (loginInformation) {
-      console.log(loginInformation);
-      router("/");
+      sessionStorage.setItem("jwtToken", "your_jwt_token");
+      router.push("/");
+      window.location.reload();
     } else if (!loginInformation) {
       setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
     }
   };
-  //로그인상태유지
+  //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
   const [loginCheck, setLoginCheckCheck] = useState(false);
   const loginCheckBtnEvent = () => {
     if (loginCheck === false) {
