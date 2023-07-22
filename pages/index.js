@@ -1,4 +1,3 @@
-import Head from "next/head";
 import Modal from "../components/Modal";
 import WigTemplate from "../components/Login";
 import Link from "next/link";
@@ -13,10 +12,6 @@ export default function Home() {
   if (loginState !== "your_jwt_token") {
     return (
       <>
-        <Head>
-          <title>TEST Is Good</title>
-          <meta name="hehe" content="hehe" />
-        </Head>
         <div>basic</div>
         <Modal name="로그인">
           <WigTemplate></WigTemplate>
@@ -26,10 +21,6 @@ export default function Home() {
   } else if (loginState === "your_jwt_token") {
     return (
       <>
-        <Head>
-          <title>Whether Is Good</title>
-          <meta name="hehe" content="hehe" />
-        </Head>
         <div>basic</div>
         <Link href="/mypage">마이페이지</Link>
       </>
