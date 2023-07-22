@@ -14,7 +14,7 @@ export default function Home() {
     return (
       <>
         <Head>
-          <title>Whether Is Good</title>
+          <title>TEST Is Good</title>
           <meta name="hehe" content="hehe" />
         </Head>
         <div>basic</div>
