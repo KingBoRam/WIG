@@ -22,7 +22,7 @@ export default function Home() {
     return (
       <>
         <div>basic</div>
-        <Link href="/mypage">마이페이지</Link>
+        <Link href="/mypage">마페이지</Link>
       </>
     );
   }
