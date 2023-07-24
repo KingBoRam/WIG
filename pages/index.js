@@ -3,7 +3,7 @@ import WigTemplate from "../components/Login";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function Home() {
+function Home() {
   const [loginState, setLoginState] = useState("");
   useEffect(() => {
     const storedLoginState = sessionStorage.getItem("jwtToken");
@@ -27,3 +27,5 @@ export default function Home() {
     );
   }
 }
+
+export default Home;

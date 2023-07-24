@@ -321,4 +321,7 @@ const Agree = () => {
     </RegisterTemplate>
   );
 };
+Agree.getInitialProps = () => {
+  return { isSpecialPage: true };
+};
 export default Agree;
