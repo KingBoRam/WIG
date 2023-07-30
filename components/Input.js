@@ -167,6 +167,16 @@ function WigInput() {
     setValuePwd("");
     setRevealPwd(false);
   };
+  //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
+  const [loginCheck, setLoginCheckCheck] = useState(false);
+  const loginCheckBtnEvent = () => {
+    if (loginCheck === false) {
+      setLoginCheckCheck(true);
+    } else {
+      setLoginCheckCheck(false);
+    }
+  };
+
   //로그인상태관리
   const router = useRouter();
   const loginInformation = true;
@@ -180,23 +190,19 @@ function WigInput() {
       setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
     }
   };
-  //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
-  const [loginCheck, setLoginCheckCheck] = useState(false);
-  const loginCheckBtnEvent = () => {
-    if (loginCheck === false) {
-      setLoginCheckCheck(true);
-    } else {
-      setLoginCheckCheck(false);
-    }
-  };
   return (
     <>
-      <form>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <InputTextBlock>
           <Input
             type="email"
             placeholder="아이디(이메일)"
             value={valueId}
+            name="username"
             onChange={onChangeId}
           ></Input>
           <RemoveId $revealid={revealId} onClick={onClickId}>
@@ -208,57 +214,58 @@ function WigInput() {
             type="password"
             placeholder="비밀번호"
             value={valuePwd}
+            name="password"
             onChange={onChangePwd}
           ></Input>
           <RemovePwd $revealpwd={revealPwd} onClick={onClickPwd}>
             <MdClear></MdClear>
           </RemovePwd>
         </InputTextBlock>
-      </form>
-      <CustomCheckboxWrapper>
-        <div>
-          <CustomCheckbox
-            type="checkbox"
-            id="all-check"
-            checked={loginCheck}
-            onChange={loginCheckBtnEvent}
-          ></CustomCheckbox>
-          <CustomLabel
-            htmlFor="all-check"
-            $ischecked={loginCheck}
-          ></CustomLabel>
-          <label
-            style={{
-              marginLeft: "2rem",
-              fontSize: "0.8rem",
-              cursor: "pointer",
-              color: "gray",
-              marginTop: "-0.5rem",
-              position: "relative",
-              top: "-0.6rem",
-            }}
-            htmlFor="all-check"
-          >
-            로그인 상태 유지
-          </label>
+        <CustomCheckboxWrapper>
+          <div>
+            <CustomCheckbox
+              type="checkbox"
+              id="all-check"
+              checked={loginCheck}
+              onChange={loginCheckBtnEvent}
+            ></CustomCheckbox>
+            <CustomLabel
+              htmlFor="all-check"
+              $ischecked={loginCheck}
+            ></CustomLabel>
+            <label
+              style={{
+                marginLeft: "2rem",
+                fontSize: "0.8rem",
+                cursor: "pointer",
+                color: "gray",
+                marginTop: "-0.5rem",
+                position: "relative",
+                top: "-0.6rem",
+              }}
+              htmlFor="all-check"
+            >
+              로그인 상태 유지
+            </label>
+          </div>
+        </CustomCheckboxWrapper>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "1.5rem",
+            height: "21px",
+            color: "red",
+            fontSize: "0.8rem",
+          }}
+        >
+          {falseText}
         </div>
-      </CustomCheckboxWrapper>
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "1.5rem",
-          height: "21px",
-          color: "red",
-          fontSize: "0.8rem",
-        }}
-      >
-        {falseText}
-      </div>
-      <Buttonblock>
-        <CircleButton type="submit" onClick={onClick}>
-          로그인
-        </CircleButton>
-      </Buttonblock>
+        <Buttonblock>
+          <CircleButton type="submit" onClick={onClick}>
+            로그인
+          </CircleButton>
+        </Buttonblock>
+      </form>
       <Buttonblock>
         <IconButtonGoogle />
         <IconButtonKakao />

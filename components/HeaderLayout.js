@@ -12,7 +12,18 @@ export default function HeaderLayout({ children }) {
   if (loginState !== "your_jwt_token") {
     return (
       <>
-        <div style={{ background: "lightgray", padding: 16, fontSize: 24 }}>
+        <div
+          style={{
+            background: "#1971c2",
+            margin: "0px",
+            padding: "16px",
+            fontSize: "24px",
+            color: "white",
+            fontFamily: "KBO-Dia-Gothic_bold",
+            fontWeight: "700",
+            letterSpacing: "0.2rem",
+          }}
+        >
           <header>WIG</header>
           <Modal name="로그인">
             <WigTemplate></WigTemplate>
@@ -24,7 +35,18 @@ export default function HeaderLayout({ children }) {
   } else if (loginState === "your_jwt_token") {
     return (
       <>
-        <div style={{ background: "lightgray", padding: 16, fontSize: 24 }}>
+        <div
+          style={{
+            background: "#1971c2",
+            margin: "0px",
+            padding: "16px",
+            fontSize: "24px",
+            color: "white",
+            fontFamily: "KBO-Dia-Gothic_bold",
+            fontWeight: "700",
+            letterSpacing: "0.2rem",
+          }}
+        >
           <header>WIG</header>
           <Link href="/mypage">마이페이지</Link>
         </div>
