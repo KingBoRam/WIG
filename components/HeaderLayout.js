@@ -17,14 +17,19 @@ export default function HeaderLayout({ children }) {
             background: "#1971c2",
             margin: "0px",
             padding: "16px",
-            fontSize: "24px",
-            color: "white",
-            fontFamily: "KBO-Dia-Gothic_bold",
-            fontWeight: "700",
-            letterSpacing: "0.2rem",
           }}
         >
-          <header>WIG</header>
+          <header
+            style={{
+              fontSize: "24px",
+              color: "white",
+              fontFamily: "KBO-Dia-Gothic_bold",
+              fontWeight: "700",
+              letterSpacing: "0.2rem",
+            }}
+          >
+            WIG
+          </header>
           <Modal name="로그인">
             <WigTemplate></WigTemplate>
           </Modal>
@@ -40,14 +45,19 @@ export default function HeaderLayout({ children }) {
             background: "#1971c2",
             margin: "0px",
             padding: "16px",
-            fontSize: "24px",
-            color: "white",
-            fontFamily: "KBO-Dia-Gothic_bold",
-            fontWeight: "700",
-            letterSpacing: "0.2rem",
           }}
         >
-          <header>WIG</header>
+          <header
+            style={{
+              fontSize: "24px",
+              color: "white",
+              fontFamily: "KBO-Dia-Gothic_bold",
+              fontWeight: "700",
+              letterSpacing: "0.2rem",
+            }}
+          >
+            WIG
+          </header>
           <Link href="/mypage">마이페이지</Link>
         </div>
         {children}

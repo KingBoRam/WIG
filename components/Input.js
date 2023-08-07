@@ -55,21 +55,21 @@ const Buttonblock = styled.div`
 `;
 const CircleButton = styled.button`
   background: #1971c2;
-  color : white;
+  color: white;
   cursor: pointer;
   width: 120px;
   height: 120px;
   border-radius: 60px;
   font-size: 30px;
   border: none;
-  font-family: "KBO-Dia-Gothic_bold";, serif;
+  font-family: "KBO-Dia-Gothic_bold", serif;
   margin-top: 1.5rem;
   margin-bottom: 0.5em;
 `;
 const IconButtonGoogle = styled.a`
-  width: 50px;
-  height: 50px;
-  border: 1px solid #000;
+  width: 46px;
+  height: 46px;
+  border: 3px solid #000;
   border-radius: 50%;
   background-image: url("/구글.png");
   background-size: cover;
@@ -265,12 +265,12 @@ function WigInput() {
             로그인
           </CircleButton>
         </Buttonblock>
+        <Buttonblock>
+          <IconButtonGoogle />
+          <IconButtonKakao />
+          <IconButtonNaver />
+        </Buttonblock>
       </form>
-      <Buttonblock>
-        <IconButtonGoogle />
-        <IconButtonKakao />
-        <IconButtonNaver />
-      </Buttonblock>
     </>
   );
 }

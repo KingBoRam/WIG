@@ -24,4 +24,5 @@ function WigFind() {
     </FindBlock>
   );
 }
+
 export default WigFind;

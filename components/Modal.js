@@ -78,4 +78,5 @@ const Modal = ({ children, name }) => {
     </>
   );
 };
+
 export default Modal;
