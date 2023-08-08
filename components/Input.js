@@ -145,6 +145,7 @@ const CustomLabel = styled.label`
 `;
 
 function WigInput() {
+  //로그인 form 제줄
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -184,26 +185,28 @@ function WigInput() {
     }
   };
   //id창에 text있으면 X 버튼
-  const [valueId, setValueId] = useState("");
   const [revealId, setRevealId] = useState(false);
-  const onChangeId = (e) => {
-    setValueId(e.target.value);
+  const onChangeId = () => {
     setRevealId(true);
   };
   const onClickId = () => {
-    setValueId("");
     setRevealId(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      username: "",
+    }));
   };
   //pwd창에 text있으면 X 버튼
-  const [valuePwd, setValuePwd] = useState("");
   const [revealPwd, setRevealPwd] = useState(false);
-  const onChangePwd = (e) => {
-    setValuePwd(e.target.value);
+  const onChangePwd = () => {
     setRevealPwd(true);
   };
   const onClickPwd = () => {
-    setValuePwd("");
     setRevealPwd(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      password: "",
+    }));
   };
   //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
   const [loginCheck, setLoginCheckCheck] = useState(false);
@@ -223,7 +226,10 @@ function WigInput() {
             placeholder="아이디(이메일)"
             value={formData.username}
             name="username"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              onChangeId();
+            }}
           ></Input>
           <RemoveId $revealid={revealId} onClick={onClickId}>
             <MdClear></MdClear>
@@ -235,7 +241,10 @@ function WigInput() {
             placeholder="비밀번호"
             value={formData.password}
             name="password"
-            onChange={handleChange}
+            onChange={(e) => {
+              handleChange(e);
+              onChangePwd();
+            }}
           ></Input>
           <RemovePwd $revealpwd={revealPwd} onClick={onClickPwd}>
             <MdClear></MdClear>
@@ -281,9 +290,7 @@ function WigInput() {
           {falseText}
         </div>
         <Buttonblock>
-          <CircleButton type="submit" /*onClick={onClick}*/>
-            로그인
-          </CircleButton>
+          <CircleButton type="submit">로그인</CircleButton>
         </Buttonblock>
         <Buttonblock>
           <IconButtonGoogle />
