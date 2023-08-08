@@ -102,7 +102,7 @@ const CustomCheckbox = styled.input`
 const CustomLabel = styled.label`
   background-color: #fff;
   margin-top: -0.5rem;
-  margin-left: 6.5px;
+  margin-left: 6px;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
@@ -118,7 +118,7 @@ const CustomLabel = styled.label`
     border-top: none;
     border-right: none;
     transform: rotate(-45deg);
-    left: 4.5px;
+    left: 5px;
     top: 5.5px;
   }
   ${({ $ischecked }) =>
@@ -135,7 +135,7 @@ const CustomLabel = styled.label`
             border-top: none;
             border-right: none;
             transform: rotate(-45deg);
-            left: 4.5px;
+            left: 5px;
             top: 5.5px;
           }
         `
@@ -145,6 +145,44 @@ const CustomLabel = styled.label`
 `;
 
 function WigInput() {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+  const [falseText, setfalseText] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data.message);
+        if (data.message === "success") {
+          sessionStorage.setItem("jwtToken", "your_jwt_token");
+          window.location.reload();
+        } else {
+          setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
+        }
+      } else {
+        console.error("Login failed:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
   //id창에 text있으면 X 버튼
   const [valueId, setValueId] = useState("");
   const [revealId, setRevealId] = useState(false);
@@ -176,34 +214,16 @@ function WigInput() {
       setLoginCheckCheck(false);
     }
   };
-
-  //로그인상태관리
-  const router = useRouter();
-  const loginInformation = true;
-  const [falseText, setfalseText] = useState(null);
-  const onClick = () => {
-    if (loginInformation) {
-      sessionStorage.setItem("jwtToken", "your_jwt_token");
-      router.push("/");
-      window.location.reload();
-    } else if (!loginInformation) {
-      setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
-    }
-  };
   return (
     <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-        }}
-      >
+      <form onSubmit={handleSubmit}>
         <InputTextBlock>
           <Input
-            type="email"
+            type="text"
             placeholder="아이디(이메일)"
-            value={valueId}
+            value={formData.username}
             name="username"
-            onChange={onChangeId}
+            onChange={handleChange}
           ></Input>
           <RemoveId $revealid={revealId} onClick={onClickId}>
             <MdClear></MdClear>
@@ -213,9 +233,9 @@ function WigInput() {
           <Input
             type="password"
             placeholder="비밀번호"
-            value={valuePwd}
+            value={formData.password}
             name="password"
-            onChange={onChangePwd}
+            onChange={handleChange}
           ></Input>
           <RemovePwd $revealpwd={revealPwd} onClick={onClickPwd}>
             <MdClear></MdClear>
@@ -261,7 +281,7 @@ function WigInput() {
           {falseText}
         </div>
         <Buttonblock>
-          <CircleButton type="submit" onClick={onClick}>
+          <CircleButton type="submit" /*onClick={onClick}*/>
             로그인
           </CircleButton>
         </Buttonblock>
