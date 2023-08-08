@@ -4,12 +4,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function HeaderLayout({ children }) {
-  const [loginState, setLoginState] = useState("");
+  const [sessionLoginState, sessionSetLoginState] = useState("");
+  const [localLoginState, sessSetLoginState] = useState("");
   useEffect(() => {
-    const storedLoginState = sessionStorage.getItem("jwtToken");
-    setLoginState(storedLoginState);
+    const storedsessionLoginState = sessionStorage.getItem("jwtToken");
+    sessionSetLoginState(storedsessionLoginState);
+    const storedlocaleLoginState = localStorage.getItem("jwtToken");
+    sessSetLoginState(storedlocaleLoginState);
   }, []);
-  if (loginState !== "your_jwt_token") {
+  if (
+    sessionLoginState !== "your_jwt_token" &&
+    localLoginState !== "your_jwt_token"
+  ) {
     return (
       <>
         <div
@@ -37,7 +43,10 @@ export default function HeaderLayout({ children }) {
         {children}
       </>
     );
-  } else if (loginState === "your_jwt_token") {
+  } else if (
+    sessionLoginState === "your_jwt_token" ||
+    localLoginState === "your_jwt_token"
+  ) {
     return (
       <>
         <div

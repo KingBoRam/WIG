@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { MdClear } from "react-icons/md";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 //디자인
 const RemoveId = styled.span`
@@ -145,6 +144,15 @@ const CustomLabel = styled.label`
 `;
 
 function WigInput() {
+  //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
+  const [loginCheck, setLoginCheckCheck] = useState(false);
+  const loginCheckBtnEvent = () => {
+    if (loginCheck === false) {
+      setLoginCheckCheck(true);
+    } else {
+      setLoginCheckCheck(false);
+    }
+  };
   //로그인 form 제줄
   const [formData, setFormData] = useState({
     username: "",
@@ -172,8 +180,13 @@ function WigInput() {
         const data = await response.json();
         console.log("Login successful:", data.message);
         if (data.message === "success") {
-          sessionStorage.setItem("jwtToken", "your_jwt_token");
-          window.location.reload();
+          if (loginCheck === true) {
+            localStorage.setItem("jwtToken", "your_jwt_token");
+            window.location.reload();
+          } else {
+            sessionStorage.setItem("jwtToken", "your_jwt_token");
+            window.location.reload();
+          }
         } else {
           setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
         }
@@ -208,15 +221,7 @@ function WigInput() {
       password: "",
     }));
   };
-  //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
-  const [loginCheck, setLoginCheckCheck] = useState(false);
-  const loginCheckBtnEvent = () => {
-    if (loginCheck === false) {
-      setLoginCheckCheck(true);
-    } else {
-      setLoginCheckCheck(false);
-    }
-  };
+
   return (
     <>
       <form onSubmit={handleSubmit}>
