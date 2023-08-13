@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import WigHeader from "../components/Headline";
 import styled from "styled-components";
 import {
@@ -75,12 +75,12 @@ function Register() {
   //token
   const router = useRouter();
   const loginInformation = true;
-  const onClick = () => {
+  const onClick = (e) => {
     if (loginInformation) {
+      e.preventDefault();
+      console.log(e.target);
       sessionStorage.setItem("jwtToken", "your_jwt_token");
       router.push("/congrats");
-    } else if (!loginInformation) {
-      setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
     }
   };
   //생년월일 정규식
@@ -243,5 +243,7 @@ function Register() {
     </>
   );
 }
-
+Register.getInitialProps = () => {
+  return { isSpecialPage: true };
+};
 export default Register;

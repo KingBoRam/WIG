@@ -28,11 +28,16 @@ const ModalView = styled.div`
   background-color: #ffffff;
 `;
 const ModalBtn = styled.button`
+  position: absolute;
   text-decoration: none;
-  border: none;
-  color: black;
+  border: 1px solid #ced4da;
+  color: white;
+  background-color: #1971c2;
   cursor: pointer;
-  position: inline;
+  padding: 5px;
+  padding-right: 7px;
+  padding-left: 7px;
+  font-size: 11px;
 `;
 const ExitBtn = styled.span`
   border: none;
@@ -78,4 +83,5 @@ const Modal = ({ children, name }) => {
     </>
   );
 };
+
 export default Modal;

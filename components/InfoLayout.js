@@ -1,6 +1,6 @@
 import Head from "next/head";
 
-export default function BaseLayout({ children }) {
+export default function InfoLayout({ children }) {
   return (
     <>
       <Head>
@@ -11,3 +11,4 @@ export default function BaseLayout({ children }) {
     </>
   );
 }
+// 나중에 여기 nav footer등도 넣음녀 될듯..?

@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import { MdClear } from "react-icons/md";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
 //디자인
 const RemoveId = styled.span`
@@ -55,21 +54,21 @@ const Buttonblock = styled.div`
 `;
 const CircleButton = styled.button`
   background: #1971c2;
-  color : white;
+  color: white;
   cursor: pointer;
   width: 120px;
   height: 120px;
   border-radius: 60px;
   font-size: 30px;
   border: none;
-  font-family: "KBO-Dia-Gothic_bold";, serif;
+  font-family: "KBO-Dia-Gothic_bold", serif;
   margin-top: 1.5rem;
   margin-bottom: 0.5em;
 `;
 const IconButtonGoogle = styled.a`
-  width: 50px;
-  height: 50px;
-  border: 1px solid #000;
+  width: 46px;
+  height: 46px;
+  border: 3px solid #000;
   border-radius: 50%;
   background-image: url("/구글.png");
   background-size: cover;
@@ -102,7 +101,7 @@ const CustomCheckbox = styled.input`
 const CustomLabel = styled.label`
   background-color: #fff;
   margin-top: -0.5rem;
-  margin-left: 6.5px;
+  margin-left: 6px;
   border: 1px solid #ccc;
   border-radius: 50%;
   cursor: pointer;
@@ -118,7 +117,7 @@ const CustomLabel = styled.label`
     border-top: none;
     border-right: none;
     transform: rotate(-45deg);
-    left: 4.5px;
+    left: 5px;
     top: 5.5px;
   }
   ${({ $ischecked }) =>
@@ -135,7 +134,7 @@ const CustomLabel = styled.label`
             border-top: none;
             border-right: none;
             transform: rotate(-45deg);
-            left: 4.5px;
+            left: 5px;
             top: 5.5px;
           }
         `
@@ -145,41 +144,6 @@ const CustomLabel = styled.label`
 `;
 
 function WigInput() {
-  //id창에 text있으면 X 버튼
-  const [valueId, setValueId] = useState("");
-  const [revealId, setRevealId] = useState(false);
-  const onChangeId = (e) => {
-    setValueId(e.target.value);
-    setRevealId(true);
-  };
-  const onClickId = () => {
-    setValueId("");
-    setRevealId(false);
-  };
-  //pwd창에 text있으면 X 버튼
-  const [valuePwd, setValuePwd] = useState("");
-  const [revealPwd, setRevealPwd] = useState(false);
-  const onChangePwd = (e) => {
-    setValuePwd(e.target.value);
-    setRevealPwd(true);
-  };
-  const onClickPwd = () => {
-    setValuePwd("");
-    setRevealPwd(false);
-  };
-  //로그인상태관리
-  const router = useRouter();
-  const loginInformation = true;
-  const [falseText, setfalseText] = useState(null);
-  const onClick = () => {
-    if (loginInformation) {
-      sessionStorage.setItem("jwtToken", "your_jwt_token");
-      router.push("/");
-      window.location.reload();
-    } else if (!loginInformation) {
-      setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
-    }
-  };
   //로그인상태유지버튼이벤트 ㅡㅡ 햇갈리게도 적어놨네 김보람
   const [loginCheck, setLoginCheckCheck] = useState(false);
   const loginCheckBtnEvent = () => {
@@ -189,15 +153,88 @@ function WigInput() {
       setLoginCheckCheck(false);
     }
   };
+  //로그인 form 제줄
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+  const [falseText, setfalseText] = useState("");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data.message);
+        if (data.message === "success") {
+          if (loginCheck === true) {
+            localStorage.setItem("jwtToken", "your_jwt_token");
+            window.location.reload();
+          } else {
+            sessionStorage.setItem("jwtToken", "your_jwt_token");
+            window.location.reload();
+          }
+        } else {
+          setfalseText("아이디 혹은 비밀번호가 틀렸습니다.");
+        }
+      } else {
+        console.error("Login failed:", response.status, response.statusText);
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+    }
+  };
+  //id창에 text있으면 X 버튼
+  const [revealId, setRevealId] = useState(false);
+  const onChangeId = () => {
+    setRevealId(true);
+  };
+  const onClickId = () => {
+    setRevealId(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      username: "",
+    }));
+  };
+  //pwd창에 text있으면 X 버튼
+  const [revealPwd, setRevealPwd] = useState(false);
+  const onChangePwd = () => {
+    setRevealPwd(true);
+  };
+  const onClickPwd = () => {
+    setRevealPwd(false);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      password: "",
+    }));
+  };
+
   return (
     <>
-      <form>
+      <form onSubmit={handleSubmit}>
         <InputTextBlock>
           <Input
-            type="email"
+            type="text"
             placeholder="아이디(이메일)"
-            value={valueId}
-            onChange={onChangeId}
+            value={formData.username}
+            name="username"
+            onChange={(e) => {
+              handleChange(e);
+              onChangeId();
+            }}
           ></Input>
           <RemoveId $revealid={revealId} onClick={onClickId}>
             <MdClear></MdClear>
@@ -207,63 +244,65 @@ function WigInput() {
           <Input
             type="password"
             placeholder="비밀번호"
-            value={valuePwd}
-            onChange={onChangePwd}
+            value={formData.password}
+            name="password"
+            onChange={(e) => {
+              handleChange(e);
+              onChangePwd();
+            }}
           ></Input>
           <RemovePwd $revealpwd={revealPwd} onClick={onClickPwd}>
             <MdClear></MdClear>
           </RemovePwd>
         </InputTextBlock>
-      </form>
-      <CustomCheckboxWrapper>
-        <div>
-          <CustomCheckbox
-            type="checkbox"
-            id="all-check"
-            checked={loginCheck}
-            onChange={loginCheckBtnEvent}
-          ></CustomCheckbox>
-          <CustomLabel
-            htmlFor="all-check"
-            $ischecked={loginCheck}
-          ></CustomLabel>
-          <label
-            style={{
-              marginLeft: "2rem",
-              fontSize: "0.8rem",
-              cursor: "pointer",
-              color: "gray",
-              marginTop: "-0.5rem",
-              position: "relative",
-              top: "-0.6rem",
-            }}
-            htmlFor="all-check"
-          >
-            로그인 상태 유지
-          </label>
+        <CustomCheckboxWrapper>
+          <div>
+            <CustomCheckbox
+              type="checkbox"
+              id="all-check"
+              checked={loginCheck}
+              onChange={loginCheckBtnEvent}
+            ></CustomCheckbox>
+            <CustomLabel
+              htmlFor="all-check"
+              $ischecked={loginCheck}
+            ></CustomLabel>
+            <label
+              style={{
+                marginLeft: "2rem",
+                fontSize: "0.8rem",
+                cursor: "pointer",
+                color: "gray",
+                marginTop: "-0.5rem",
+                position: "relative",
+                top: "-0.6rem",
+              }}
+              htmlFor="all-check"
+            >
+              로그인 상태 유지
+            </label>
+          </div>
+        </CustomCheckboxWrapper>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "1.5rem",
+            height: "21px",
+            color: "red",
+            fontSize: "0.8rem",
+          }}
+        >
+          {falseText}
         </div>
-      </CustomCheckboxWrapper>
-      <div
-        style={{
-          textAlign: "center",
-          marginTop: "1.5rem",
-          height: "21px",
-          color: "red",
-          fontSize: "0.8rem",
-        }}
-      >
-        {falseText}
-      </div>
-      <Buttonblock>
-        <CircleButton type="submit" onClick={onClick}>
-          로그인
-        </CircleButton>
-      </Buttonblock>
-      <Buttonblock>
-        <IconButtonGoogle />
-        <IconButtonKakao />
-        <IconButtonNaver />
-      </Buttonblock>
+        <Buttonblock>
+          <CircleButton type="submit">로그인</CircleButton>
+        </Buttonblock>
+        <Buttonblock>
+          <IconButtonGoogle />
+          <IconButtonKakao />
+          <IconButtonNaver />
+        </Buttonblock>
+      </form>
     </>
   );
 }

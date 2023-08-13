@@ -1,17 +1,31 @@
 import "../styles/globals.css";
 import { RecoilRoot } from "recoil";
-import BaseLayout from "../components/baselayout";
-import MainLayout from "../components/mainLayout";
+import InfoLayout from "../components/InfoLayout";
+import HeaderLayout from "../components/HeaderLayout";
 
 function MyApp({ Component, pageProps }) {
+  const isSpecialPage = pageProps.isSpecialPage || false;
   return (
-    <RecoilRoot>
-      <BaseLayout>
-        <MainLayout>
-          <Component {...pageProps} />
-        </MainLayout>
-      </BaseLayout>
-    </RecoilRoot>
+    <>
+      <style jsx global>{`
+        body {
+          margin: 0;
+        }
+      `}</style>
+      <RecoilRoot>
+        {isSpecialPage ? (
+          <InfoLayout>
+            <Component {...pageProps} />
+          </InfoLayout>
+        ) : (
+          <InfoLayout>
+            <HeaderLayout>
+              <Component {...pageProps} />
+            </HeaderLayout>
+          </InfoLayout>
+        )}
+      </RecoilRoot>
+    </>
   );
 }
 
